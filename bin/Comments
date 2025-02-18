@@ -1,0 +1,6 @@
+Hello, everyone
+I`m trying to make a password manager in golang
+It should work in 2 languages : English and Russian
+It should be convinient to user, but safe if a scammer don`t know your password code
+All passwords will be encrypted with your master-password. It`s the only way to make this 2 tasks
+So, let`s start!
