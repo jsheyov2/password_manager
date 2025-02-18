@@ -14,6 +14,9 @@ func Graphic_start() {
 	switch n {
 	case 0:
 		{
+			PrintLang(10)
+			s := NotEmptyString()
+			PrintLang(6)
 
 		}
 	case 1:
@@ -45,4 +48,15 @@ func ClearConsone() {
 
 	cmd.Stdout = os.Stdout
 	cmd.Run()
+}
+
+func NotEmptyString() string {
+	var x string
+	for {
+		x = Input("")
+		if x != "" && x != " " {
+			return x
+		}
+		PrintLang(100)
+	}
 }

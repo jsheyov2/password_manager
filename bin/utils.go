@@ -4,6 +4,7 @@ import (
 	"crypto/sha512"
 	"encoding/hex"
 	"fmt"
+	v2 "math/rand/v2"
 	"os"
 	"slices"
 	"strconv"
@@ -69,4 +70,72 @@ func NumChoose(max int) int {
 		}
 		PrintLang(100)
 	}
+}
+
+// Works with any table
+func passgen(length int, table *map[string]int) string {
+	var output string
+	for i := 0; i <= length; i++ {
+		r := v2.IntN(len(*table))
+		for k, v := range *table {
+			if v == r {
+				output += k
+			}
+		}
+	}
+	return output
+}
+
+// Works with default table
+func Gen32() string {
+	return passgen(32, &DEFAULT_TABLE)
+}
+
+// Works with default table
+func Gen64() string {
+	return passgen(64, &DEFAULT_TABLE)
+}
+
+// To any type in future
+func To_one_lenght(a, b *[]int) {
+	if len(*a) > len(*b) {
+		for len(*a) > len(*b) {
+			*b = append(*b, *b...)
+		}
+		*b = (*b)[:len(*a)]
+	}
+	if len(*b) > len(*a) {
+		for len(*b) > len(*a) {
+			*a = append(*a, *a...)
+		}
+		*a = (*a)[:len(*b)]
+	}
+}
+
+func Xor(a, b []int) []int {
+	c := []int{}
+	for i, v := range a {
+		c = append(c, v^b[i])
+	}
+	return c
+}
+
+func Curcular_shift(n []int, positions int, left bool) []int {
+	if !left {
+		slices.Reverse(n)
+	}
+	for i := 0; i < int(positions); i++ {
+		corner := n[0]
+		for num := range n {
+			if num+1 >= len(n) {
+				n[num] = corner
+				break
+			}
+			n[num] = n[num+1]
+		}
+	}
+	if !left {
+		slices.Reverse(n)
+	}
+	return n
 }

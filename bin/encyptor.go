@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -51,8 +52,9 @@ func write_to_json(j *Json_passwords) {
 }
 
 func WritePassword(u profile, metod encryption_metod, login, password, site_name string) {
+
 	p := Password{
-		metod, login, password, time.Now(),
+		metod, login /*soon...*/, password, time.Now(),
 	}
 	ps := []Password{p}
 	s := Site{
@@ -62,4 +64,57 @@ func WritePassword(u profile, metod encryption_metod, login, password, site_name
 	c.Data = append(c.Data, s)
 	write_to_json(c)
 
+}
+
+func medium_encryption(p string) string {
+	/*
+		Medium encryption:
+		password, master sha-512 -> []int, to one length
+		password xor master sha-512
+		password << (circular) on nums of consonants in original password
+		password to text(using table)
+	*/
+	ipwd, c := string_to_int(p, &DEFAULT_TABLE)
+	imaster, _ := string_to_int(MASTER, &DEFAULT_TABLE)
+	To_one_lenght(&ipwd, &imaster)
+	r := Xor(ipwd, ipwd)
+	res := Curcular_shift(r, c, true)
+	result, _ := int_to_string(res)
+	return result
+}
+func strong_encryption(p string) string {
+	return ""
+}
+
+func string_to_int(s string, _ *map[string]int) ([]int, int) {
+	var output []int
+	for _, v := range s {
+		output = append(output, DEFAULT_TABLE[string(v)])
+		r := recover()
+		if r != nil {
+			return nil, -1
+		}
+	}
+	return output, count_cons(s)
+}
+func int_to_string(a []int) (string, int) {
+	out := ""
+	for _, v := range a {
+		for k, v1 := range DEFAULT_TABLE {
+			if v == v1 {
+				out += k
+			}
+		}
+	}
+	return out, count_cons(out)
+}
+
+func count_cons(s string) int {
+	var i = 0
+	for _, v := range s {
+		if strings.ContainsAny(string(v), "AaEeYyUuIiOo") {
+			i++
+		}
+	}
+	return i
 }

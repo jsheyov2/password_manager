@@ -29,6 +29,7 @@ var ENCR encryption_metod
 var SETS Settings
 var PROFILE profile
 var LAUNCH string
+var MASTER string
 
 func Change_language(i int) {
 	s := read_settngs()
@@ -71,6 +72,7 @@ func Startup() {
 	ENCR = SETS.Encryption_metod
 	PROFILE = SETS.Profile
 	LAUNCH, _ = os.Executable()
+	MASTER = SETS.Master
 }
 
 func WriteMasterPassword(m string) {
@@ -78,6 +80,7 @@ func WriteMasterPassword(m string) {
 	s := read_settngs()
 	s.Master = m
 	write_settings(s)
+	MASTER = m
 }
 
 func WriteMetod(m encryption_metod) {
