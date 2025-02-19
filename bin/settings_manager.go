@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
+	"time"
 )
 
 const (
@@ -40,7 +42,10 @@ func Change_language(i int) {
 
 func read_settngs() *Settings {
 	ReturnToAssets()
-	b, _ := os.ReadFile("settings.json")
+	b, err := os.ReadFile("settings.json")
+	if err != nil {
+		LogErr(err)
+	}
 	var s Settings
 	json.Unmarshal(b, &s)
 	return &s
@@ -48,7 +53,10 @@ func read_settngs() *Settings {
 
 func write_settings(s *Settings) {
 	ReturnToAssets()
-	b, _ := json.Marshal(s)
+	b, err := json.Marshal(s)
+	if err != nil {
+		LogErr(err)
+	}
 	os.Remove("settings.json")
 	os.WriteFile("settings.json", b, 0775)
 }
@@ -67,12 +75,14 @@ func Change_mode(i int) {
 	write_settings(s)
 }
 func Startup() {
+	GetLaunch()
+	START_TIME = fmt.Sprintf("%v", time.Now().Format("15:04:05 02.01.2006"))
 	SETS = *read_settngs()
 	LANG = SETS.Language
 	ENCR = SETS.Encryption_metod
 	PROFILE = SETS.Profile
-	LAUNCH, _ = os.Executable()
 	MASTER = SETS.Master
+	check_password_on_login()
 }
 
 func WriteMasterPassword(m string) {
@@ -88,4 +98,14 @@ func WriteMetod(m encryption_metod) {
 	s := read_settngs()
 	s.Encryption_metod = m
 	write_settings(s)
+}
+
+func check_password_on_login() {
+	p := Input(Check_language(15))
+	if Sha512(p) == MASTER {
+		return
+	}
+	PrintLang(16)
+	Input("")
+	os.Exit(0)
 }

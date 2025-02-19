@@ -3,9 +3,9 @@ package main
 import "fmt"
 
 const APP_NAME = "password_manager.exe"
-const VESION = "0.23 alpha"
+const VESION = "0.24 alpha"
 
-var RESERVED_NAMES = []string{"main.go", "Comments", "installer.go", "settings_manager.go", "types.go", "utils.go", "main.exe", "go.mod", APP_NAME, "assets", "encryptor.go", "go.sum", "graphics.go", "onefile.go"}
+var RESERVED_NAMES = []string{"main.go", "installer.go", "settings_manager.go", "types.go", "utils.go", "main.exe", "go.mod", APP_NAME, "assets", "encryptor.go", "go.sum", "graphics.go", "onefile.go"}
 
 var COMPLETE_PROGRAMM = []string{"pmx.es"}
 
@@ -24,7 +24,7 @@ const Choose_language string = "Please, choose a language/Пожалуйста, 
 //const MakePassword string =
 //const Password_Too_Weak string =
 
-// English / Russian
+// English \ Russian
 var TRANSLATIONS = map[int]trns{
 	1:   {"Enter an username", "Введите имя для работы с программой"},
 	2:   {"Please, enter a valid name. It may be unreal, but you should recognize it", "Пожалуйста, введите правильное имя. Оно может быть ненастоящим, но вам нужно его запомнить"},
@@ -37,6 +37,18 @@ var TRANSLATIONS = map[int]trns{
 	9:   {"Repeat your password", "Повторите пароль"},
 	10:  {"Enter a site/application. It`s better to enter a full name", "Введите сайт/название приложения. Рекомендуется вводить полное и наиболее подробное имя"},
 	11:  {"0. Generate password (64 bytes)\n1. Genetate password (32 bytes)\n2. Enter password manually", "0. Сненерировать пароль (64 байта)\n1. Сгенерировать пароль(32 байта)\n2. Использовать свой пароль"},
+	12:  {"Enter a password to this side", "Введите пароль к этому сайту"},
+	13:  {"Enter login for site. This field can be empty", "Введите логин для сайта. Это значение может быть пустым"},
+	14:  {"Password succesfully saved (we hope so). Press to go to the menu", "Пароль успешно сохранен (ну мы надеемся). Нажмите клавишу для выхода в меню"},
+	15:  {"Enter your master-password", "Введите мастер-пароль"},
+	16:  {"Password is incorrect", "Пароль неверный"},
+	17:  {"Your password is: ", "Ваш пароль: "},
+	18:  {},
+	19:  {},
+	20:  {},
+	21:  {},
+	22:  {},
+	23:  {},
 	100: {"Please, choose possible option", "Пожалуйста, выберете допустимое значение"},
 	101: {"Please, enter a valid numer!", "Пожалуйста, введите допустимое число"},
 	108: {"Your password is too week. Requirements:\n@ At least 10 characters long\n@ Contains at least 1 number and 1 upper letter\n@ Contains at least one of these simbols (*/!@#%^&()=+_)", "Ваш пароль сликом слабый. Требования:\n@ Длинна не менее 10 символов\n@ Содержит хотя бы 1 цифру и 1 заглавную букву\n@ Содержит хотя бы 1 спец. символ  (*/!@#%^&()=+_)"},

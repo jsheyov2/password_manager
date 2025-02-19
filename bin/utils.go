@@ -6,8 +6,10 @@ import (
 	"fmt"
 	v2 "math/rand/v2"
 	"os"
+	"path/filepath"
 	"slices"
 	"strconv"
+	"strings"
 )
 
 func Quit(msg string) {
@@ -46,14 +48,32 @@ func Sha512(s string) string {
 	hib := h.Sum(nil)
 	return hex.EncodeToString(hib)
 }
+func GetLaunch() {
+	l, err := os.Executable()
+	if err != nil {
+		Quit("ERROR in launch")
+	}
+	l = filepath.ToSlash(l)
+	LAUNCH = strings.TrimSuffix(l, APP_NAME)
+	//Printl(APP_NAME)
+	//Quit(LAUNCH)
+}
 
 func ReturnToBase() {
-	os.Chdir(LAUNCH)
+	err := os.Chdir(LAUNCH)
+
+	if err != nil {
+		print(err.Error())
+		LogErr(err)
+	}
 }
 
 func ReturnToAssets() {
 	ReturnToBase()
-	os.Chdir("assets")
+	err := os.Chdir("assets")
+	if err != nil {
+		LogErr(err)
+	}
 }
 
 func NumChoose(max int) int {

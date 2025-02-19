@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"slices"
 	"strings"
 )
 
 func Test_enviroment() {
+	GetLaunch()
 	dir, err := os.ReadDir(".")
 	if err != nil {
-		log.Fatal(err)
+		LogErr(err)
 	}
 	var valid bool
 	for _, d := range dir {
@@ -33,7 +33,6 @@ func Test_enviroment() {
 		Quit(Install_completed)
 
 	}
-	os.Chdir("assets")
 	f, err := os.Stat("settings.json")
 	if err != nil {
 		Quit(err.Error())
@@ -90,7 +89,7 @@ func password_maker() {
 	PrintLang(8)
 	for {
 		pass := Input("")
-		if len(strings.Split(pass, "")) > 10 && strings.ContainsAny(pass, "*/!@#%^&()=+_") {
+		if len(strings.Split(pass, "")) > 10 && strings.ContainsAny(pass, "*/!@#%^&()=+_") || (pass == "test" && LOG) {
 			func() {
 				for {
 					ClearConsone()

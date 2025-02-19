@@ -41,20 +41,34 @@ func read_passwords_from_json() *Json_passwords {
 
 func write_to_json(j *Json_passwords) {
 	ReturnToBase()
-	os.Chdir("assets")
-	os.Chdir("str")
+	err := os.Chdir("assets")
+	if err != nil {
+		Log("ERROR", err.Error())
+		os.Exit(1)
+	}
+	err = os.Chdir("str")
+	if err != nil {
+		LogErr(err)
+	}
 	b, err := json.Marshal(j)
 	if err != nil {
-		log.Fatal(err)
+		LogErr(err)
 	}
 	os.Remove("prm.es")
 	os.WriteFile("prm.es", b, 0775)
 }
 
 func WritePassword(u profile, metod encryption_metod, login, password, site_name string) {
+	switch metod {
+	case encryption_metod(13):
 
+	case encryption_metod(14):
+		password = medium_encryption(password)
+	case encryption_metod(15):
+		//Strong `ll be added soon
+	}
 	p := Password{
-		metod, login /*soon...*/, password, time.Now(),
+		metod, login, password, time.Now(),
 	}
 	ps := []Password{p}
 	s := Site{
